@@ -78,6 +78,7 @@ VALIDATE $? "copy mongo repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
+export MONGODB_HOST
 mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "Load catalogue products"
 
