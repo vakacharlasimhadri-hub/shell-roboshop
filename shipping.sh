@@ -14,7 +14,7 @@ LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 MYSQL_HOST=mysql.dawsp86s.space
 
 mkdir -p $LOGS_FOLDER
-echo "script started executed at: $(date)" | tee -a $LOG_FILE
+echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
 if [ $USERID -ne 0 ]; then
     echo "ERROR:: Please run this script with root privelege"
@@ -22,11 +22,11 @@ if [ $USERID -ne 0 ]; then
 fi
 
 VALIDATE(){ # functions receive inputs through args just like shell script args
-    if [ $1 -ne 0 ]; then 
-        echo  -e "$2 ... $R is failure $N" | tee -a $LOG_FILE
+    if [ $1 -ne 0 ]; then
+        echo -e "$2 ... $R FAILURE $N" | tee -a $LOG_FILE
         exit 1
-    else 
-        echo  -e "$2 ... $G is SUCCESS $N" | tee -a $LOG_FILE
+    else
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
     fi
 }
 
@@ -37,17 +37,17 @@ if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
     VALIDATE $? "Creating system user"
 else
-    echo -e "user already exist... $Y SKIPPING $N"
+    echo -e "User already exist ... $Y SKIPPING $N"
 fi
 
-mkdir -p /app 
+mkdir -p /app
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading shipping application"
 
 cd /app 
-VALIDATE $? "Changing app directory"
+VALIDATE $? "Changing to app directory"
 
 rm -rf /app/*
 VALIDATE $? "Removing existing code"
